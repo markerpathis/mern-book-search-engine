@@ -8,7 +8,7 @@ const typeDefs = `#graphql
   }
 
   type Book {
-  _id: id
+  _id: ID
   authors: String
   description: String
   bookId: String
@@ -17,10 +17,18 @@ const typeDefs = `#graphql
   title: String
   }
 
+  type Auth {
+    token: ID!
+    user: User
+  }
 
   type Query {
     users: [User]
     books: [Book]
+  }
+
+  type Mutation {
+    addUser(username: String!, email: String!, password: String!): Auth
   }
 `;
 
