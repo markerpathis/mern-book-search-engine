@@ -4,7 +4,7 @@ const typeDefs = `#graphql
     username: String
     email: String
     password: String
-    savedBooks: [Book]!
+    savedBooks: [Book]
   }
 
   type Book {
@@ -17,6 +17,11 @@ const typeDefs = `#graphql
   title: String
   }
 
+
+  type Query {
+    users: [User]
+    books: [Book]
+  }
 `;
 
 module.exports = typeDefs;
