@@ -14,11 +14,11 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+    login: async (parent, { username, email, password }) => {
+      const user = await User.findOne({ $or: [{ username }, { email }] });
 
       if (!user) {
-        throw new GraphQLError("No profile with this email found!", {
+        throw new GraphQLError("Can't find this user", {
           extensions: {
             code: "UNAUTHENTICATED",
           },
@@ -28,7 +28,7 @@ const resolvers = {
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw new GraphQLError("Incorrect credentials", {
+        throw new GraphQLError("Wrong password!", {
           extensions: {
             code: "UNAUTHENTICATED",
           },
