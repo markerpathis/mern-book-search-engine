@@ -18,7 +18,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-  context: authMiddleware,
 });
 
 app.use(express.urlencoded({ extended: false }));
@@ -39,7 +38,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
   app.use(
     "/graphql",
     expressMiddleware(server, {
-      context: async ({ req }) => ({ token: req.headers.token }),
+      context: async ({ req }) => ({ context: authMiddleware }),
     })
   );
 

@@ -9,13 +9,13 @@ const resolvers = {
     },
   },
   Mutation: {
-    createUser: async (parent, { username, email, password }) => {
+    addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };
     },
-    login: async (parent, { username, email, password }) => {
-      const user = await User.findOne({ $or: [{ username }, { email }] });
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
 
       if (!user) {
         throw new GraphQLError("Can't find this user", {
